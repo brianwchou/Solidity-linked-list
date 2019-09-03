@@ -50,7 +50,14 @@ contract LinkedList {
     function removeFrom(uint256 index) public {
         require(index < size, "index not availiable");
 
-        
+        if (index == 0) {
+            removeFromHead();
+            return;
+        }
+
+        uint256 prior = locate(index - 1);
+        list[prior].next = list[list[prior].next].next;
+        size = size - 1;
     }
 
     function getAt(uint256 index) public view returns(string memory) {
