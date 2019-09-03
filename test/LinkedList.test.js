@@ -12,7 +12,8 @@ contract('LinkedList', async () => {
     });
 
     beforeEach(async () => {
-        await util.takeSnapshot();
+        let snapshot = await util.takeSnapshot();
+        snapshotId = snapshot.result
     });
 
     afterEach(async () => {
@@ -30,13 +31,46 @@ contract('LinkedList', async () => {
 
     it('test appendAtHead() with empty list', async () => {
         const testString = 'test string';
-        let tx = await list.appendAtHead(testString);
+        await list.appendAtHead(testString);
 
         // test length
         const size = await list.length();
         assert.equal(1, size, 'size did not increment');
+    });
+
+    it('test getAt() with item in list', async () => {
+        const testString = 'test string';
+        await list.appendAtHead(testString);
 
         const returnedString = await list.getAt(0);
         assert.equal(returnedString, testString, 'values do not match');
     });
+
+    it('test getAt() with item in list', async () => {
+        const testString = 'test string';
+        await list.appendAtHead(testString);
+
+        const returnedString = await list.getAt(0);
+        assert.equal(returnedString, testString, 'values do not match');
+    });
+
+    it('test appendAt() with empty list', async () => {
+        const testString = 'test string';
+        const index = 0;
+
+        await truffleAssert.reverts(list.appendAt(testString, index), 'index not availiable');
+    });
+
+    it('test appendAt() with item in list', async () => {
+        const testString = 'test string';
+        const dummyString = 'dummy';
+        const index = 0;
+        await list.appendAtHead(dummyString);
+
+        await list.appendAt(testString, index);
+
+        const returnedString = await list.getAt(0);
+        assert.equal(returnedString, testString, 'values do not match');
+    })
+
 });

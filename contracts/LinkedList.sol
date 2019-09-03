@@ -8,7 +8,6 @@ contract LinkedList {
 
     mapping(uint256 => Node) list;
     uint256 private head;
-    uint256 private tail;
     uint256 private size = 0;
 
     event AppendEvent(string);
@@ -25,15 +24,21 @@ contract LinkedList {
         size = size + 1;
     }
 
-    // function appendAt(string memory item, uint256 index)  public {
-        
-    // }
+    function appendAt(string memory item, uint256 index) public {
+        require(index < size, "index not availiable");
+
+        uint256 current = locate(index);
+
+        uint256 next = list[current].next;
+
+        uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+
+        list[current].next = hash;
+
+        list[hash] = Node(item, next);
+    }
 
     // function removeFromHead() public {
-
-    // }
-
-    // function removeFromTail() public {
 
     // }
 
@@ -44,18 +49,23 @@ contract LinkedList {
     function getAt(uint256 index) public view returns(string memory) {
         require(index < size, "index not availiable");
 
-        uint256 i = 0;
-        uint256 pointer = head;
-        while(i <= index) {
-            pointer = list[pointer].next;
-            i = i - 1;
-        }
+        uint256 pointer = locate(index);
 
         return list[pointer].data;
     }
 
     function length() public view returns(uint256) {
         return size;
+    }
+
+    function locate(uint256 index) internal view returns(uint256) {
+        uint256 i = 0;
+        uint256 pointer = head;
+        while(i <= index) {
+            pointer = list[pointer].next;
+            i = i - 1;
+        }
+        return pointer;
     }
 
 }
