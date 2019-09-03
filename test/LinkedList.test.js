@@ -87,5 +87,31 @@ contract('LinkedList', async () => {
         assert.equal(0, size, 'list should be empty');
     });
     
+    it('test removeFrom() with 3 items in list removing from head', async () => {
+        await list.appendAtHead('hello world');
+        await list.appendAtHead('wooggly booggly');
+        await list.appendAtHead('when does the narwal bacon');
+        
+        let size = await list.length();
+        assert.equal(3, size, 'list have 3 items');
+        await list.removeFrom(0);
+
+        size = await list.length();
+        assert.equal(2, size, 'list have 3 items');
+
+    });
+
+    it('test removeFrom() with 3 items in list removing from end', async () => {
+        await list.appendAtHead('hello world');
+        await list.appendAtHead('wooggly booggly');
+        await list.appendAtHead('when does the narwal bacon');
+        
+        let size = await list.length();
+        assert.equal(3, size, 'list have 3 items');
+        await list.removeFrom(2);
+
+        size = await list.length();
+        assert.equal(2, size, 'list have 3 items');
+    });
 
 });
