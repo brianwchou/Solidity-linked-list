@@ -7,12 +7,21 @@ contract LinkedList {
     }
 
     mapping(uint256 => Node) list;
-    Node private head;
-    Node private tail;
+    uint256 private head;
+    uint256 private tail;
     uint256 private size = 0;
 
+    event AppendEvent(string);
+    event RemoveEvent(string);
+
     function appendAtHead(string memory item) public {
-        
+        if (size == 0) {
+            uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+            list[hash] = Node(item, 0);
+        }
+
+        head = uint256(keccak256(abi.encodePacked(item)));
+        list[head] = Node(item, head);
     }
 
     function appendAtTail(string memory item) public {
@@ -32,6 +41,10 @@ contract LinkedList {
     }
 
     function removeFrom(uint256) public {
+
+    }
+
+    function getAt() public {
 
     }
 
