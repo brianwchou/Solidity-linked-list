@@ -25,24 +25,24 @@ contract LinkedList {
         size = size + 1;
     }
 
-    function appendAt(string memory item, uint256 index)  public {
+    // function appendAt(string memory item, uint256 index)  public {
         
-    }
+    // }
 
-    function removeFromHead() public {
+    // function removeFromHead() public {
 
-    }
+    // }
 
-    function removeFromTail() public {
+    // function removeFromTail() public {
 
-    }
+    // }
 
-    function removeFrom(uint256) public {
+    // function removeFrom(uint256) public {
 
-    }
+    // }
 
     function getAt(uint256 index) public view returns(string memory) {
-        require(index < size, "");
+        require(index < size, "index not availiable");
 
         uint256 i = 0;
         uint256 pointer = head;

@@ -1,1 +1,1 @@
-## Linked list in solidty
+## linked list in solidty
