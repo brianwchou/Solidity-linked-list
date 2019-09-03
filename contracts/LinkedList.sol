@@ -22,14 +22,11 @@ contract LinkedList {
 
         head = uint256(keccak256(abi.encodePacked(item)));
         list[head] = Node(item, head);
+        size = size + 1;
     }
 
-    function appendAtTail(string memory item) public {
-
-    }
-
-    function appendAt(string memory item) public {
-
+    function appendAt(string memory item, uint256 index)  public {
+        
     }
 
     function removeFromHead() public {
@@ -44,8 +41,17 @@ contract LinkedList {
 
     }
 
-    function getAt() public {
+    function getAt(uint256 index) public view returns(string memory) {
+        require(index < size, "");
 
+        uint256 i = 0;
+        uint256 pointer = head;
+        while(i <= index) {
+            pointer = list[pointer].next;
+            i = i - 1;
+        }
+
+        return list[pointer].data;
     }
 
     function length() public view returns(uint256) {
