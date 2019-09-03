@@ -38,13 +38,20 @@ contract LinkedList {
         list[hash] = Node(item, next);
     }
 
-    // function removeFromHead() public {
+    function removeFromHead() public {
+        require(size > 0, "list is empty");
 
-    // }
+        uint256 temp = list[head].next;
+        delete list[head];
+        head = temp;
+        size = size - 1;
+    }
 
-    // function removeFrom(uint256) public {
+    function removeFrom(uint256 index) public {
+        require(index < size, "index not availiable");
 
-    // }
+        
+    }
 
     function getAt(uint256 index) public view returns(string memory) {
         require(index < size, "index not availiable");

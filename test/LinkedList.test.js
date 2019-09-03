@@ -71,6 +71,21 @@ contract('LinkedList', async () => {
 
         const returnedString = await list.getAt(0);
         assert.equal(returnedString, testString, 'values do not match');
-    })
+    });
+
+    it('test removeFromHead() with empty list', async () => {
+        await truffleAssert.reverts(list.removeFromHead(), 'list is empty');
+    });
+
+    it('test removeFromHead() with item in list', async () => {
+        const testString = 'test string';
+        await list.appendAtHead(testString);
+
+        await list.removeFromHead();
+
+        const size = await list.length();
+        assert.equal(0, size, 'list should be empty');
+    });
+    
 
 });
