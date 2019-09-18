@@ -1,12 +1,12 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract LinkedList {
-    struct Node {
+    struct HashedNode {
         string data;
         uint256 next;
     }
 
-    mapping(uint256 => Node) list;
+    mapping(uint256 => HashedNode) list;
     uint256 private head;
     uint256 private size = 0;
 
@@ -16,11 +16,11 @@ contract LinkedList {
     function appendAtHead(string memory item) public {
         if (size == 0) {
             uint256 hash = uint256(keccak256(abi.encodePacked(item)));
-            list[hash] = Node(item, 0);
+            list[hash] = HashedNode(item, 0);
         }
 
         head = uint256(keccak256(abi.encodePacked(item)));
-        list[head] = Node(item, head);
+        list[head] = HashedNode(item, head);
         size = size + 1;
     }
 
@@ -35,7 +35,7 @@ contract LinkedList {
 
         list[current].next = hash;
 
-        list[hash] = Node(item, next);
+        list[hash] = HashedNode(item, next);
     }
 
     function removeFromHead() public {
