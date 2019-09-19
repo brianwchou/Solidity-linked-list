@@ -72,6 +72,20 @@ contract LinkedList {
         return size;
     }
 
+    function contains(string memory data) public view returns(bool) {
+        uint256 hash = getDataHash(data);
+
+        return list[hash].next != 0x0 && compareStrings(list[hash].data, "");
+    }
+
+    function compareStrings(string memory a, string memory b) internal pure returns(bool) {
+        return (keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b)));
+    }
+
+    function getDataHash(string memory item) internal pure returns(uint256) {
+        return uint256(keccak256(abi.encodePacked(item)));
+    }
+
     function locate(uint256 index) internal view returns(uint256) {
         uint256 i = 0;
         uint256 pointer = head;
