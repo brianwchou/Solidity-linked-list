@@ -76,7 +76,7 @@ contract LinkedList {
     function contains(string memory data) public view returns(bool) {
         uint256 hash = getDataHash(data);
 
-        return list[hash].next != 0x0 && compareStrings(list[hash].data, "");
+        return compareStrings(list[hash].data, "");
     }
 
     function compareStrings(string memory a, string memory b) internal pure returns(bool) {

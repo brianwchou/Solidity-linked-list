@@ -73,6 +73,13 @@ contract('LinkedList', async () => {
         assert.equal(returnedString, testString, 'values do not match');
     });
 
+    it('test contains() with item', async () => {
+        const testString = 'thing';
+        await list.appendAtHead(testString);
+        
+        assert(await list.appendAtHead(testString), `list does not contain ${testString}`);
+    });
+
     it('test removeFromHead() with empty list', async () => {
         await truffleAssert.reverts(list.removeFromHead(), 'list is empty');
     });
