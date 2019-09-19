@@ -14,13 +14,14 @@ contract LinkedList {
     event RemoveEvent(string);
 
     function appendAtHead(string memory item) public {
+        uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+
         if (size == 0) {
-            uint256 hash = uint256(keccak256(abi.encodePacked(item)));
-            list[hash] = HashedNode(item, 0);
+            list[head] = HashedNode(item, 0x0);
+        } else {
+            list[hash] = HashedNode(item, head);
         }
 
-        head = uint256(keccak256(abi.encodePacked(item)));
-        list[head] = HashedNode(item, head);
         size = size + 1;
     }
 
