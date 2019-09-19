@@ -21,7 +21,7 @@ contract('LinkedList', async () => {
     });
 
     it('test length() with empty list', async () => {
-        assert.equal(0, await list.length(), 'list should be empty');
+        assert.equal(0, await list.length.call(), 'list should be empty');
     });
 
     it('test getAt() with empty list', async () => {
@@ -34,7 +34,7 @@ contract('LinkedList', async () => {
         await list.appendAtHead(testString);
 
         // test length
-        const size = await list.length();
+        const size = await list.length.call();
         assert.equal(1, size, 'size did not increment');
     });
 
@@ -83,7 +83,7 @@ contract('LinkedList', async () => {
 
         await list.removeFromHead();
 
-        const size = await list.length();
+        const size = await list.length.call();
         assert.equal(0, size, 'list should be empty');
     });
     
@@ -92,11 +92,11 @@ contract('LinkedList', async () => {
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
-        let size = await list.length();
+        let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
         await list.removeFrom(0);
 
-        size = await list.length();
+        size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');
 
     });
@@ -106,12 +106,11 @@ contract('LinkedList', async () => {
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
-        let size = await list.length();
+        let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
         await list.removeFrom(2);
 
-        size = await list.length();
+        size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');
     });
-
 });
