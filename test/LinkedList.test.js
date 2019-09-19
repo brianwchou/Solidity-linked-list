@@ -3,7 +3,6 @@ const truffleAssert = require('truffle-assert');
 const util = require('ganache-time-traveler');
 
 contract('LinkedList', async () => {
-
     let list;
     let snapshotId;
 

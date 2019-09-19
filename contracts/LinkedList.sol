@@ -14,7 +14,7 @@ contract LinkedList {
     event RemoveEvent(string);
 
     function appendAtHead(string memory item) public {
-        uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+        uint256 hash = getDataHash(item);
 
         if (size == 0) {
             list[head] = HashedNode(item, 0x0);
@@ -32,7 +32,7 @@ contract LinkedList {
 
         uint256 next = list[current].next;
 
-        uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+        uint256 hash = getDataHash(item);
 
         list[current].next = hash;
 
@@ -57,7 +57,9 @@ contract LinkedList {
         }
 
         uint256 prior = locate(index - 1);
-        list[prior].next = list[list[prior].next].next;
+        uint256 nodeToDelete = list[prior].next;
+        list[prior].next = list[nodeToDelete].next;
+
         size = size - 1;
     }
 
