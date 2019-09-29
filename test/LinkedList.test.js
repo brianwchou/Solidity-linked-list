@@ -3,7 +3,6 @@ const truffleAssert = require('truffle-assert');
 const util = require('ganache-time-traveler');
 
 contract('LinkedList', async () => {
-
     let list;
     let snapshotId;
 
@@ -38,6 +37,20 @@ contract('LinkedList', async () => {
         assert.equal(1, size, 'size did not increment');
     });
 
+    it('test appendAtHead() with item in list', async () => {
+        const testString1 = 'string1';
+        await list.appendAtHead(testString1);
+        const testString2 = 'helloworld';
+        await list.appendAtHead(testString2);
+
+        // test length
+        const size = await list.length.call();
+        assert.equal(2, size, 'size did not increment');
+        const resultString = await list.getAt.call(1);
+        console.log(resultString);
+        assert.equal(resultString, testString1, 'should be first test string');
+    });
+
     it('test getAt() with item in list', async () => {
         const testString = 'test string';
         await list.appendAtHead(testString);
@@ -61,7 +74,7 @@ contract('LinkedList', async () => {
         await truffleAssert.reverts(list.appendAt(testString, index), 'index not availiable');
     });
 
-    it('test appendAt() with item in list', async () => {
+    it.only('test appendAt() with item in list', async () => {
         const testString = 'test string';
         const dummyString = 'dummy';
         const index = 0;
@@ -69,8 +82,19 @@ contract('LinkedList', async () => {
 
         await list.appendAt(testString, index);
 
-        const returnedString = await list.getAt(0);
+        let returnedString = await list.getAt(0);
+        assert.equal(returnedString, dummyString, 'values do not match');
+        returnedString = await list.getAt(1);
         assert.equal(returnedString, testString, 'values do not match');
+    });
+
+    it('test contains() with item', async () => {
+        const testString = 'thing';
+        await list.appendAtHead(testString);
+        const thing = await list.contains(testString);
+        console.log(thing)
+
+        assert(true, `list does not contain ${testString}`);
     });
 
     it('test removeFromHead() with empty list', async () => {
@@ -87,28 +111,28 @@ contract('LinkedList', async () => {
         assert.equal(0, size, 'list should be empty');
     });
     
-    it('test removeFrom() with 3 items in list removing from head', async () => {
+    it('test removeAt() with 3 items in list removing from head', async () => {
         await list.appendAtHead('hello world');
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
         let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
-        await list.removeFrom(0);
+        await list.removeAt(0);
 
         size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');
 
     });
 
-    it('test removeFrom() with 3 items in list removing from end', async () => {
+    it('test removeAt() with 3 items in list removing from end', async () => {
         await list.appendAtHead('hello world');
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
         let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
-        await list.removeFrom(2);
+        await list.removeAt(2);
 
         size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');

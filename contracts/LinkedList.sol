@@ -14,13 +14,15 @@ contract LinkedList {
     event RemoveEvent(string);
 
     function appendAtHead(string memory item) public {
+        uint256 hash = getDataHash(item);
+
         if (size == 0) {
-            uint256 hash = uint256(keccak256(abi.encodePacked(item)));
-            list[hash] = HashedNode(item, 0);
+            list[hash] = HashedNode(item, 0x0);
+        } else {
+            list[hash] = HashedNode(item, head);
         }
 
-        head = uint256(keccak256(abi.encodePacked(item)));
-        list[head] = HashedNode(item, head);
+        head = hash;
         size = size + 1;
     }
 
@@ -31,11 +33,13 @@ contract LinkedList {
 
         uint256 next = list[current].next;
 
-        uint256 hash = uint256(keccak256(abi.encodePacked(item)));
+        uint256 hash = getDataHash(item);
 
         list[current].next = hash;
 
         list[hash] = HashedNode(item, next);
+        
+        size = size + 1;
     }
 
     function removeFromHead() public {
@@ -47,7 +51,7 @@ contract LinkedList {
         size = size - 1;
     }
 
-    function removeFrom(uint256 index) public {
+    function removeAt(uint256 index) public {
         require(index < size, "index not availiable");
 
         if (index == 0) {
@@ -56,7 +60,10 @@ contract LinkedList {
         }
 
         uint256 prior = locate(index - 1);
-        list[prior].next = list[list[prior].next].next;
+        uint256 nodeToDelete = list[prior].next;
+        list[prior].next = list[nodeToDelete].next;
+        delete list[nodeToDelete];
+
         size = size - 1;
     }
 
@@ -72,12 +79,26 @@ contract LinkedList {
         return size;
     }
 
+    function contains(string memory data) public view returns(bool) {
+        uint256 hash = getDataHash(data);
+
+        return compareStrings(list[hash].data, "");
+    }
+
+    function compareStrings(string memory a, string memory b) internal pure returns(bool) {
+        return (keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b)));
+    }
+
+    function getDataHash(string memory item) internal pure returns(uint256) {
+        return uint256(keccak256(abi.encodePacked(item)));
+    }
+
     function locate(uint256 index) internal view returns(uint256) {
         uint256 i = 0;
         uint256 pointer = head;
-        while(i <= index) {
+        while(i < index) {
             pointer = list[pointer].next;
-            i = i - 1;
+            i = i + 1;
         }
         return pointer;
     }
