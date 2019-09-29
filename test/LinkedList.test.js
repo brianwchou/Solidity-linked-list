@@ -39,14 +39,15 @@ contract('LinkedList', async () => {
 
     it('test appendAtHead() with item in list', async () => {
         const testString1 = 'string1';
-        const testString2 = 'string2';
         await list.appendAtHead(testString1);
+        const testString2 = 'helloworld';
         await list.appendAtHead(testString2);
 
         // test length
         const size = await list.length.call();
         assert.equal(2, size, 'size did not increment');
         const resultString = await list.getAt.call(1);
+        console.log(resultString);
         assert.equal(resultString, testString1, 'should be first test string');
     });
 
@@ -73,7 +74,7 @@ contract('LinkedList', async () => {
         await truffleAssert.reverts(list.appendAt(testString, index), 'index not availiable');
     });
 
-    it('test appendAt() with item in list', async () => {
+    it.only('test appendAt() with item in list', async () => {
         const testString = 'test string';
         const dummyString = 'dummy';
         const index = 0;
@@ -81,7 +82,9 @@ contract('LinkedList', async () => {
 
         await list.appendAt(testString, index);
 
-        const returnedString = await list.getAt(0);
+        let returnedString = await list.getAt(0);
+        assert.equal(returnedString, dummyString, 'values do not match');
+        returnedString = await list.getAt(1);
         assert.equal(returnedString, testString, 'values do not match');
     });
 

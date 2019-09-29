@@ -18,11 +18,11 @@ contract LinkedList {
 
         if (size == 0) {
             list[hash] = HashedNode(item, 0x0);
-            head = hash;
         } else {
             list[hash] = HashedNode(item, head);
         }
 
+        head = hash;
         size = size + 1;
     }
 
@@ -38,6 +38,8 @@ contract LinkedList {
         list[current].next = hash;
 
         list[hash] = HashedNode(item, next);
+        
+        size = size + 1;
     }
 
     function removeFromHead() public {
@@ -94,9 +96,9 @@ contract LinkedList {
     function locate(uint256 index) internal view returns(uint256) {
         uint256 i = 0;
         uint256 pointer = head;
-        while(i <= index) {
+        while(i < index) {
             pointer = list[pointer].next;
-            i = i - 1;
+            i = i + 1;
         }
         return pointer;
     }
