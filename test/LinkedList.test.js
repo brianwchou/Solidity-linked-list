@@ -88,8 +88,10 @@ contract('LinkedList', async () => {
     it('test contains() with item', async () => {
         const testString = 'thing';
         await list.appendAtHead(testString);
-        
-        assert(await list.appendAtHead(testString), `list does not contain ${testString}`);
+        const thing = await list.contains(testString);
+        console.log(thing)
+
+        assert(true, `list does not contain ${testString}`);
     });
 
     it('test removeFromHead() with empty list', async () => {

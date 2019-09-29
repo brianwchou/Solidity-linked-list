@@ -17,7 +17,8 @@ contract LinkedList {
         uint256 hash = getDataHash(item);
 
         if (size == 0) {
-            list[head] = HashedNode(item, 0x0);
+            list[hash] = HashedNode(item, 0x0);
+            head = hash;
         } else {
             list[hash] = HashedNode(item, head);
         }
@@ -79,7 +80,7 @@ contract LinkedList {
     function contains(string memory data) public view returns(bool) {
         uint256 hash = getDataHash(data);
 
-        return !compareStrings(list[hash].data, "");
+        return compareStrings(list[hash].data, "");
     }
 
     function compareStrings(string memory a, string memory b) internal pure returns(bool) {
