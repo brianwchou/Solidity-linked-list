@@ -37,6 +37,19 @@ contract('LinkedList', async () => {
         assert.equal(1, size, 'size did not increment');
     });
 
+    it('test appendAtHead() with item in list', async () => {
+        const testString1 = 'string1';
+        const testString2 = 'string2';
+        await list.appendAtHead(testString1);
+        await list.appendAtHead(testString2);
+
+        // test length
+        const size = await list.length.call();
+        assert.equal(2, size, 'size did not increment');
+        const resultString = await list.getAt.call(1);
+        assert.equal(resultString, testString1, 'should be first test string');
+    });
+
     it('test getAt() with item in list', async () => {
         const testString = 'test string';
         await list.appendAtHead(testString);
@@ -93,28 +106,28 @@ contract('LinkedList', async () => {
         assert.equal(0, size, 'list should be empty');
     });
     
-    it('test removeFrom() with 3 items in list removing from head', async () => {
+    it('test removeAt() with 3 items in list removing from head', async () => {
         await list.appendAtHead('hello world');
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
         let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
-        await list.removeFrom(0);
+        await list.removeAt(0);
 
         size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');
 
     });
 
-    it('test removeFrom() with 3 items in list removing from end', async () => {
+    it('test removeAt() with 3 items in list removing from end', async () => {
         await list.appendAtHead('hello world');
         await list.appendAtHead('wooggly booggly');
         await list.appendAtHead('when does the narwal bacon');
         
         let size = await list.length.call();
         assert.equal(3, size, 'list have 3 items');
-        await list.removeFrom(2);
+        await list.removeAt(2);
 
         size = await list.length.call();
         assert.equal(2, size, 'list have 3 items');

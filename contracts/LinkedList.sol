@@ -48,7 +48,7 @@ contract LinkedList {
         size = size - 1;
     }
 
-    function removeFrom(uint256 index) public {
+    function removeAt(uint256 index) public {
         require(index < size, "index not availiable");
 
         if (index == 0) {
@@ -59,6 +59,7 @@ contract LinkedList {
         uint256 prior = locate(index - 1);
         uint256 nodeToDelete = list[prior].next;
         list[prior].next = list[nodeToDelete].next;
+        delete list[nodeToDelete];
 
         size = size - 1;
     }
@@ -78,7 +79,7 @@ contract LinkedList {
     function contains(string memory data) public view returns(bool) {
         uint256 hash = getDataHash(data);
 
-        return compareStrings(list[hash].data, "");
+        return !compareStrings(list[hash].data, "");
     }
 
     function compareStrings(string memory a, string memory b) internal pure returns(bool) {
